@@ -1,0 +1,39 @@
+using System.Collections;
+using System.Collections.Generic;
+using TreeEditor;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    Rigidbody2D rigig2D;
+    float jumpForce = 680.0f;
+    float walkForce = 30.0f;
+    float maxWalkSpeed = 2.0f;
+    // Start is called before the first frame update
+    void Start()
+    {
+        Application.targetFrameRate=60;
+        this.rigig2D = GetComponent<Rigidbody2D>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space)){
+            this.rigig2D.AddForce(transform.up * this.jumpForce);
+        }
+
+        int key = 0;
+        if(Input.GetKey(KeyCode.RightArrow))key = 1;
+        if(Input.GetKey(KeyCode.LeftArrow))key= -1;
+        float speedx = Mathf.Abs(this.rigig2D.velocity.x);
+
+        if(speedx < this.maxWalkSpeed){
+            this.rigig2D.AddForce(transform.right * key * this.walkForce);
+        }
+
+        if(key != 0){
+            transform.localScale = new Vector3(key,1,1);
+        }
+    }
+}
